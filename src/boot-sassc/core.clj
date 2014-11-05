@@ -7,14 +7,8 @@
             [boot.util         :as util]
             [boot.task-helpers :as helpers]))
 
-(defn build-sassc-cmd
-  [output-path & {:keys [output-style line-numbers source-maps sass-files]}]
-  (concat
-   ["sassc" "-o" output-path]
-   (when output-style ["-t" output-style])
-   (when line-numbers ["-l"])
-   (when source-maps ["-g"])
-   sass-files))
+(defn valid-style? [style]
+  (some #{"nested" "compressed"} [style]))
 
 (core/deftask sass
   "Compile Sass/SCSS to CSS files.
@@ -34,7 +28,10 @@
         sass        (->> (core/all-files) (core/by-ext [".sass" ".scss"]))]
     (util/info "Compiling %s...\n" (.getName output-path))
     (apply helpers/dosh
-           (build-sassc-cmd output-path {:output-style output-style
-                                           :line-numbers line-numbers
-                                           :source-maps source-maps
-                                           :sass-files sass}))))
+           (concat
+            ["sassc" "-o" output-path]
+            (when (and output-style
+                       (valid-style? output-style)) ["-t" output-style])
+            (when line-numbers ["-l"])
+            (when source-maps ["-g"])
+            sass-files))))
