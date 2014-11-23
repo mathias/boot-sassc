@@ -66,10 +66,6 @@ on how to use these. By default `boot-sassc` will save the compiled CSS file at
  g source-maps         bool "Emit source map."]
 ```
 
-## Known issues
-
-The file paths may not be correct for the `source-maps` option. I'm investigating solutions.
-
 ## License
 
 Copyright Matt Gauger 2014.
