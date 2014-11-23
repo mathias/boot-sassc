@@ -35,13 +35,11 @@
                      (->> (core/all-files) (core/by-ext [".sass" ".scss"])))]
     (core/with-pre-wrap
       (util/info "Compiling %s...\n" (.getName output-path))
-      (sassc
-             (concat
-              ["-o" css-out]
-              (when (and output-style
-                         (valid-style? output-style))
-                ["-t" output-style])
-              (when line-numbers ["-l"])
-              (when source-maps ["-g"])
-              sass-files)))
+      (sassc (concat ["-o" css-out]
+                     (when (and output-style
+                                (valid-style? output-style))
+                       ["-t" output-style])
+                     (when line-numbers ["-l"])
+                     (when source-maps ["-g"])
+                     sass-files)))
     (core/sync! output-dir tmp-dir)))
