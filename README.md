@@ -16,7 +16,7 @@ In a terminal you can compile all `.sass` and `.scss` files in your project with
 boot sass
 ```
 
-To start with one file (which probably `@import`s all other Sass source files), use the `-f` flag:
+To compile your main SCSS file only (so that `@import`s happen in the right order), use the `-f` flag:
 
 ```
 boot sass -f /sass/main.scss
