@@ -6,7 +6,14 @@ Provides the `sass` task, which compiles Sass/SCSS to CSS.
 
 ## Usage
 
-Typically, you will have many SCSS files in your project, and one main SCSS file that `@import`s things in the correct order.
+Typically, you will have many SCSS files in your project, and one main SCSS file that `@import`s things in the correct order. Add your Sass source directory to your project's `build.boot` file:
+
+```clojure
+;; in build.boot
+(set-env!
+  :dependencies '[...]
+  :src-paths #{"sass/"})
+```
 
 ### Terminal
 
@@ -19,7 +26,7 @@ boot sass
 To compile your main SCSS file only (so that `@import`s happen in the right order), use the `-f` flag:
 
 ```
-boot sass -f /sass/main.scss
+boot sass -f sass/main.scss
 ```
 
 To change the filename of the output stylesheet is output to, use the `-o` flag:
@@ -58,3 +65,13 @@ on how to use these. By default `boot-sassc` will save the compiled CSS file at
  l line-numbers        bool "Emit comments showing original line numbers."
  g source-maps         bool "Emit source map."]
 ```
+
+## Known issues
+
+The file paths may not be correct for the `source-maps` option. I'm investigating solutions.
+
+## License
+
+Copyright Matt Gauger 2014.
+
+Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
