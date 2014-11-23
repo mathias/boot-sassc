@@ -1,6 +1,6 @@
 # boot-sassc
 
-Boot task to compile [Sass & SCSS](http://sass-lang.com/) stylesheets with the [libsass sassc](http://libsass.org/#sassc) compiler.
+Boot task to compile [Sass & SCSS](http://sass-lang.com/) stylesheets with the [sassc](http://libsass.org/#sassc) compiler. Note: You must install the `sassc` compiler to use this library!
 
 Provides the `sass` task, which compiles Sass/SCSS to CSS.
 
