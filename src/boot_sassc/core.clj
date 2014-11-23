@@ -37,6 +37,7 @@
         (util/info "Compiling %s...\n" (.getName css-out))
         (io/make-parents css-out)
         (sassc (concat ["-o" css-out]
+                       (when sass-file ["-f" sass-file])
                        (when (and output-style
                                   (valid-style? output-style))
                          ["-t" output-style])
