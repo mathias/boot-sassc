@@ -11,7 +11,7 @@
   (some #{"nested" "compressed"} [style]))
 
 (defn- sassc [args]
-  (util/info (clojure.string/join " " args))
+  (assert (every? string? args) "Args must be strings")
   (apply helpers/dosh (concat ["sassc"] args)))
 
 (core/deftask sass
@@ -33,18 +33,17 @@
     (core/with-pre-wrap
       (let [css-out     (io/file tmp-dir output-path)
             smap        (io/file tmp-dir (str output-path ".map"))
-            sass-files  (or [sass-file]
-                            (clojure.string/join " " (->> (core/all-files)
-                                                          (core/by-ext [".sass" ".scss"]))))]
-        (util/info "Compiling %s...\n" (.getName css-out))
+            srcs        (core/src-files+)
+            sass-files  (->> srcs (core/by-ext [".sass" ".scss"]))]
+        (util/info "Compiling target/%s...\n" (.getName css-out))
         (io/make-parents css-out)
-        ;; (sassc (concat ["-o" css-out]
-        ;;                (when (and output-style
-        ;;                           (valid-style? output-style))
-        ;;                  ["-t" output-style])
-        ;;                (when line-numbers ["-l"])
-        ;;                (when source-maps ["-g"])
-        ;;                sass-files))
-        ;; try to hardcode:
-        (apply helpers/dosh ["sassc" sass-file])
+        (sassc (concat ["-o" (.getPath css-out)]
+                       (when (and output-style
+                                  (valid-style? output-style))
+                         ["-t" output-style])
+                       (when line-numbers ["-l"])
+                       (when source-maps ["-g"])
+                       (if sass-file
+                         [sass-file]
+                         (map #(.getPath %) sass-files))))
         (core/sync! output-dir tmp-dir)))))
