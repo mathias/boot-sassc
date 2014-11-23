@@ -4,8 +4,6 @@ Boot task to compile [Sass & SCSS](http://sass-lang.com/) stylesheets with the [
 
 Provides the `sass` task, which compiles Sass/SCSS to CSS.
 
-[![Clojars Project](http://clojars.org/boot-garden/latest-version.svg)](http://clojars.org/boot-garden)
-
 ## Usage
 
 Typically, you will have many SCSS files in your project, and one main SCSS file that `@import`s things in the correct order.
