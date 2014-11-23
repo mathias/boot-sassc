@@ -11,6 +11,7 @@
   (some #{"nested" "compressed"} [style]))
 
 (defn- sassc [args]
+  (util/info (clojure.string/join " " args))
   (apply helpers/dosh (concat ["sassc"] args)))
 
 (core/deftask sass
@@ -32,16 +33,18 @@
     (core/with-pre-wrap
       (let [css-out     (io/file tmp-dir output-path)
             smap        (io/file tmp-dir (str output-path ".map"))
-            sass-files  (or (->> (core/all-files) (core/by-name sass-file))
-                            (->> (core/all-files) (core/by-ext [".sass" ".scss"])))]
+            sass-files  (or [sass-file]
+                            (clojure.string/join " " (->> (core/all-files)
+                                                          (core/by-ext [".sass" ".scss"]))))]
         (util/info "Compiling %s...\n" (.getName css-out))
         (io/make-parents css-out)
-        (sassc (concat ["-o" css-out]
-                       (when sass-file ["-f" sass-file])
-                       (when (and output-style
-                                  (valid-style? output-style))
-                         ["-t" output-style])
-                       (when line-numbers ["-l"])
-                       (when source-maps ["-g"])
-                       sass-files))
+        ;; (sassc (concat ["-o" css-out]
+        ;;                (when (and output-style
+        ;;                           (valid-style? output-style))
+        ;;                  ["-t" output-style])
+        ;;                (when line-numbers ["-l"])
+        ;;                (when source-maps ["-g"])
+        ;;                sass-files))
+        ;; try to hardcode:
+        (apply helpers/dosh ["sassc" sass-file])
         (core/sync! output-dir tmp-dir)))))
