@@ -1,8 +1,13 @@
 # boot-sassc
 
-Boot task to compile [Sass & SCSS](http://sass-lang.com/) stylesheets with the [sassc](http://libsass.org/#sassc) compiler. Note: You must install the `sassc` compiler to use this library!
+Boot task to compile [SCSS](http://sass-lang.com/) stylesheets with the [sassc](http://libsass.org/#sassc) compiler.r
 
-Provides the `sass` task, which compiles Sass/SCSS to CSS.
+Notes:
+
+* You must install the `sassc` compiler to use this library!
+* The `sassc` executable only compiles SCSS syntax, not the indent-style Sass syntax!
+
+Provides the `sass` task, which compiles SCSS to CSS.
 
 ## Usage
 
@@ -51,6 +56,8 @@ In your `build.boot` you could call it like this:
   []
   (comp (watch) (sass)))
 ```
+
+For examples of advanced settings in `build.boot`, refer to the [example project](https://github.com/mathias/boot-sassc-example).
 
 ## Options
 

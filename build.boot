@@ -12,7 +12,7 @@
 (task-options!
   pom  [:project     'boot-sassc
         :version     +version+
-        :description "Boot task to compile Sass/SCSS to CSS."
+        :description "Boot task to compile SCSS to CSS."
         :url         "https://github.com/mathias/boot-sassc"
         :scm         {:url "https://github.com/mathias/boot-sassc"}
         :license     {:name "Eclipse Public License"
