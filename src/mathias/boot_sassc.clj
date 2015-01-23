@@ -34,34 +34,60 @@
   [res files]
   (by-name-re res files true))
 
-(defn not-sass-partials
+(defn leading-underscore
+  [files]
+  (by-name-re [#"^_"] files))
+
+(defn not-leading-underscore
   [files]
   (not-by-name-re [#"^_"] files))
 
 (core/deftask sass
-  "Compile SCSS to CSS files.
+  "Compile SCSS to CSS files.  Requires that the sassc executable (3.1 or better) is available on the $PATH.
 
-   The default output path is target/main.css
+   Rules for compilation:
 
-   Requires that the sassc executable has been installed."
+   - If --sass-file is provided, then it is compiled whenever it is changed or whenever
+     any SASS partials in the project are changed or removed
+   - If --sass-file is not provided:
+     - If no SASS partials have changed or been removed, only the changed SASS files are compiled.
+     - If any SASS partials in the project have changed or been removed, all SASS files are compiled
+       regardless of whether they themselves have changed."
   [f sass-file FILE      str  "Input file. If not present, all .sass & .scss files will be compiled."
    o output-dir PATH     str  "Output CSS directory path, relative to target directory."
    t output-style TYPE   str  "Output style. Can be: nested, compressed."
    l line-numbers        bool "Emit comments showing original line numbers."
    g source-maps         bool "Emit source map."]
-  (let [tmp-dir     (core/temp-dir!)
-        output-dir  (if output-dir (io/file tmp-dir output-dir) tmp-dir)]
+  (let [tmp-dir      (core/temp-dir!)
+        output-dir   (if output-dir (io/file tmp-dir output-dir) tmp-dir)
+        last-fileset (atom nil)]
     (core/with-pre-wrap fileset
-      (let [sass-files (cond->> fileset
-                                true core/input-files
-                                true (core/by-ext [".sass" ".scss"])
-                                (not sass-file) not-sass-partials
-                                sass-file (core/by-name [sass-file]))]
+      (let [diff             (->> fileset
+                                  (core/fileset-diff @last-fileset)
+                                  core/input-files
+                                  (core/by-ext [".sass" ".scss"]))
+            partials-diff    (leading-underscore diff)
+            sass-diff        (cond->> diff
+                                      true      not-leading-underscore
+                                      sass-file (core/by-name [sass-file]))
+            partials-removed (->> fileset
+                                  (core/fileset-removed @last-fileset)
+                                  core/input-files
+                                  (core/by-ext [".sass" ".scss"])
+                                  leading-underscore)
+            sass-files       (if (or (seq partials-diff) (seq partials-removed))
+                               (cond->> fileset
+                                        true      core/input-files
+                                        true      (core/by-ext [".sass" ".scss"])
+                                        true      not-leading-underscore
+                                        sass-file (core/by-name [sass-file]))
+                               sass-diff)]
+        (reset! last-fileset fileset)
         (core/empty-dir! tmp-dir)
-        (util/info "Compiling %d changed SASS files... .\n" (count sass-files))
+        (util/dbug "Compiling %d changed SASS files... .\n" (count sass-files))
         (.mkdirs output-dir)
         (doseq [file sass-files]
-          (util/dbug "  Compiling SCSS file %s\n" (core/tmppath file))
+          (util/info "Compiling %s\n" (core/tmppath file))
           (sassc (core/tmpfile file)
                  output-dir
                  :output-style output-style
