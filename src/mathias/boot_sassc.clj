@@ -23,7 +23,7 @@
                                         (valid-style? output-style))
                                ["-t" output-style])
                              (when line-numbers ["-l"])
-                             (when source-maps ["-g"])
+                             (when source-maps ["-m"])
                              [(file/path input-file) (file/path output-file)]))))
 
 (defn by-name-re
