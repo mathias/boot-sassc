@@ -50,27 +50,24 @@
    l line-numbers        bool "Emit comments showing original line numbers."
    g source-maps         bool "Emit source map."]
   (let [tmp-dir     (core/temp-dir!)
-        output-dir  (if output-dir (io/file tmp-dir output-dir) tmp-dir)
-        last-sass   (atom nil)]
+        output-dir  (if output-dir (io/file tmp-dir output-dir) tmp-dir)]
     (core/with-pre-wrap fileset
       (let [sass-files (cond->> fileset
-                                true (core/fileset-diff @last-sass)
                                 true core/input-files
                                 true (core/by-ext [".sass" ".scss"])
                                 (not sass-file) not-sass-partials
                                 sass-file (core/by-name [sass-file]))]
-        (reset! last-sass sass-files)
         (core/empty-dir! tmp-dir)
         (util/info "Compiling %d changed SASS files... .\n" (count sass-files))
         (.mkdirs output-dir)
         (doseq [file sass-files]
-          (util/info "  Compiling SCSS file %s.\n" (core/tmppath file))
+          (util/dbug "  Compiling SCSS file %s\n" (core/tmppath file))
           (sassc (core/tmpfile file)
                  output-dir
                  :output-style output-style
                  :line-numbers line-numbers
                  :source-maps  source-maps))
-        (util/info "...done.\n" (count sass-files))
+        (util/dbug "...done.\n" (count sass-files))
         (-> fileset
             (core/add-resource tmp-dir)
             core/commit!)))))
