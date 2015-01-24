@@ -62,28 +62,33 @@
         output-dir   (if output-dir (io/file tmp-dir output-dir) tmp-dir)
         last-fileset (atom nil)]
     (core/with-pre-wrap fileset
-      (let [diff             (->> fileset
-                                  (core/fileset-diff @last-fileset)
+      (let [last-fileset-val @last-fileset
+            diff             (->> fileset
+                                  (core/fileset-diff last-fileset-val)
                                   core/input-files
                                   (core/by-ext [".sass" ".scss"]))
-            partials-diff    (leading-underscore diff)
-            sass-diff        (cond->> diff
-                                      true      not-leading-underscore
-                                      sass-file (core/by-name [sass-file]))
-            partials-removed (->> fileset
-                                  (core/fileset-removed @last-fileset)
+            removed          (->> fileset
+                                  (core/fileset-removed last-fileset-val)
                                   core/input-files
-                                  (core/by-ext [".sass" ".scss"])
-                                  leading-underscore)
-            sass-files       (if (or (seq partials-diff) (seq partials-removed))
-                               (cond->> fileset
-                                        true      core/input-files
-                                        true      (core/by-ext [".sass" ".scss"])
+                                  (core/by-ext [".sass" ".scss"]))
+            added            (->> fileset
+                                  (core/fileset-added last-fileset-val)
+                                  core/input-files
+                                  (core/by-ext [".sass" ".scss"]))
+            sass-files       (if (or (seq (leading-underscore diff))
+                                     (seq removed)
+                                     (seq added))
+                               (do
+                                 (core/empty-dir! tmp-dir)
+                                 (cond->> fileset
+                                          true      core/input-files
+                                          true      (core/by-ext [".sass" ".scss"])
+                                          true      not-leading-underscore
+                                          sass-file (core/by-name [sass-file])))
+                               (cond->> diff
                                         true      not-leading-underscore
-                                        sass-file (core/by-name [sass-file]))
-                               sass-diff)]
+                                        sass-file (core/by-name [sass-file])))]
         (reset! last-fileset fileset)
-        (core/empty-dir! tmp-dir)
         (util/dbug "Compiling %d changed SASS files... .\n" (count sass-files))
         (.mkdirs output-dir)
         (doseq [file sass-files]
