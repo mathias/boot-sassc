@@ -1,9 +1,9 @@
 (set-env!
- :dependencies '[[adzerk/bootlaces "0.1.8" :scope "test"]])
+ :dependencies '[[adzerk/bootlaces "0.1.9" :scope "test"]])
 
 (require '[adzerk.bootlaces :refer :all])
 
-(def +version+ "0.1.0")
+(def +version+ "0.1.1")
 (bootlaces! +version+)
 
 (task-options!
