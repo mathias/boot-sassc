@@ -13,7 +13,10 @@
   [filename]
   (string/replace filename #".s(c|a)ss$" ".css"))
 
-(defn- sassc [input-file output-dir & {:keys [output-style line-numbers source-maps]}]
+(defn- sassc [input-file output-dir & {:keys [output-style
+                                              line-numbers
+                                              source-maps
+                                              load-path]}]
   (let [output-file (->> input-file
                          .getName
                          sass-filename->css-filename
@@ -24,6 +27,7 @@
                                ["-t" output-style])
                              (when line-numbers ["-l"])
                              (when source-maps ["-m"])
+                             (when load-path ["-I" load-path])
                              [(file/path input-file) (file/path output-file)]))))
 
 (defn by-name-re
@@ -57,7 +61,8 @@
    o output-dir PATH     str  "Output CSS directory path, relative to target directory."
    t output-style TYPE   str  "Output style. Can be: nested, compressed."
    l line-numbers        bool "Emit comments showing original line numbers."
-   g source-maps         bool "Emit source map."]
+   g source-maps         bool "Emit source map."
+   p load-path           str  "Load path for libsass. Use : for separate paths."]
   (let [tmp-dir      (core/temp-dir!)
         output-dir   (if output-dir (io/file tmp-dir output-dir) tmp-dir)
         last-fileset (atom nil)]
@@ -97,7 +102,8 @@
                  output-dir
                  :output-style output-style
                  :line-numbers line-numbers
-                 :source-maps  source-maps))
+                 :source-maps  source-maps
+                 :load-path    load-path))
         (util/dbug "...done.\n" (count sass-files))
         (-> fileset
             (core/add-resource tmp-dir)
