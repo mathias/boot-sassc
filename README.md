@@ -75,7 +75,7 @@ on how to use these. By default `boot-sassc` will save the compiled CSS file at
 
 ```clojure
 [f sass-file           str  "Input file. If not present, all .sass & .scss files will be compiled."
- o output-to PATH      str  "Output CSS file, path is relative to target/"
+ o output-dir PATH     str  "Output CSS file, path is relative to target/"
  t output-style TYPE   str  "Output style. Can be: nested, compressed."
  l line-numbers        bool "Emit comments showing original line numbers."
  g source-maps         bool "Emit source map."]
