@@ -78,7 +78,8 @@ on how to use these. By default `boot-sassc` will save the compiled CSS file at
  o output-dir PATH     str  "Output CSS file, path is relative to target/"
  t output-style TYPE   str  "Output style. Can be: nested, compressed."
  l line-numbers        bool "Emit comments showing original line numbers."
- g source-maps         bool "Emit source map."]
+ g source-maps         bool "Emit source map."
+ p load-path           str  "Load path for libsass. Use : for separate paths."]
 ```
 
 ## License
