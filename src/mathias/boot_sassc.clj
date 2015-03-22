@@ -62,7 +62,7 @@
    t output-style TYPE   str  "Output style. Can be: nested, compressed."
    l line-numbers        bool "Emit comments showing original line numbers."
    g source-maps         bool "Emit source map."
-   p load-path           str  "Load path for libsass. Use : for separate paths."]
+   p load-path PATH      str  "Load path for libsass. Use : for separate paths."]
   (let [tmp-dir      (core/temp-dir!)
         output-dir   (if output-dir (io/file tmp-dir output-dir) tmp-dir)
         last-fileset (atom nil)]
