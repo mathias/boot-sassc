@@ -7,7 +7,7 @@
 (bootlaces! +version+)
 
 (task-options!
- pom  {:project     'mathias/boot-sassc
+ pom  {:project     'boot-sassc
        :version     +version+
        :description "Boot task to compile SCSS to CSS."
        :url         "https://github.com/mathias/boot-sassc"
