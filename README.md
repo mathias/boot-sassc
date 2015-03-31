@@ -1,6 +1,6 @@
 # boot-sassc
 
-[![Clojars Project](http://clojars.org/boot-sassc/latest-version.svg)](http://clojars.org/mathias/boot-sassc)
+[![Clojars Project](http://clojars.org/boot-sassc/latest-version.svg)](https://clojars.org/boot-sassc)
 
 Boot task to compile [SCSS](http://sass-lang.com/) stylesheets with the [sassc](http://libsass.org/#sassc) compiler.r
 
