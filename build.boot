@@ -3,11 +3,11 @@
 
 (require '[adzerk.bootlaces :refer :all])
 
-(def +version+ "0.1.2")
+(def +version+ "0.1.3")
 (bootlaces! +version+)
 
 (task-options!
- pom  {:project     'boot-sassc
+ pom  {:project     'mathias/boot-sassc
        :version     +version+
        :description "Boot task to compile SCSS to CSS."
        :url         "https://github.com/mathias/boot-sassc"

@@ -16,7 +16,7 @@ Provides the `sass` task, which compiles SCSS to CSS.
 Include the project:
 
 ```clojure
-[boot-sassc "0.1.2"]
+[mathias/boot-sassc "0.1.3"]
 ```
 
 Typically, you will have many SCSS files in your project, and one main SCSS file that `@import`s things in the correct order. Add your Sass source directory to your project's `build.boot` file:
@@ -24,7 +24,7 @@ Typically, you will have many SCSS files in your project, and one main SCSS file
 ```clojure
 ;; in build.boot
 (set-env!
-  :dependencies '[boot-sassc   "0.1.2"]
+  :dependencies '[mathias/boot-sassc   "0.1.3"]
   :resource-paths #{"sass/"})
 ```
 
