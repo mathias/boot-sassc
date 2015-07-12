@@ -20,15 +20,16 @@
   (let [output-file (->> input-file
                          .getName
                          sass-filename->css-filename
-                         (io/file output-dir))]
-    (apply util/dosh (concat ["sassc"]
-                             (when (and output-style
-                                        (valid-style? output-style))
-                               ["-t" output-style])
-                             (when line-numbers ["-l"])
-                             (when source-maps ["-m"])
-                             (when load-path ["-I" load-path])
-                             [(file/path input-file) (file/path output-file)]))))
+                         (io/file output-dir))
+        cmd (concat ["sassc"]
+                    (when (and output-style (valid-style? output-style))
+                      ["-t" output-style])
+                    (when line-numbers ["-l"])
+                    (when source-maps ["-m"])
+                    (when load-path ["-I" load-path])
+                    [(file/path input-file) (file/path output-file)])]
+    (util/dbug "Running sassc: %s\n" (string/join " " cmd))
+    (apply util/dosh cmd)))
 
 (defn by-name-re
   [res files & [negate?]]
