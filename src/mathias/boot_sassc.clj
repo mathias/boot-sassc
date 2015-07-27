@@ -7,7 +7,7 @@
             [boot.util       :as util]))
 
 (defn valid-style? [style]
-  (some #{"nested" "compressed"} [style]))
+  (some #{"nested" "expanded" "compact" "compressed"} [style]))
 
 (defn sass-filename->css-filename
   [filename]
