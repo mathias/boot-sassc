@@ -4,19 +4,22 @@
 
 Boot task to compile [SCSS](http://sass-lang.com/) stylesheets with the [sassc](http://libsass.org/#sassc) compiler.r
 
+This is the README for versions `0.1.4` -- for older versions, see the tags in the GitHub repo.
+
 Notes:
 
 * You must install the `sassc` compiler to use this library!
 * The `sassc` executable only compiles SCSS syntax, not the indent-style Sass syntax!
+* boot must be version 2.1.2 or newer
 
-Provides the `sass` task, which compiles SCSS to CSS.
+This library provides the `sass` task, which compiles SCSS to CSS.
 
 ## Usage
 
 Include the project:
 
 ```clojure
-[mathias/boot-sassc "0.1.3"]
+[mathias/boot-sassc "0.1.4"]
 ```
 
 Typically, you will have many SCSS files in your project, and one main SCSS file that `@import`s things in the correct order. Add your Sass source directory to your project's `build.boot` file:
@@ -24,7 +27,7 @@ Typically, you will have many SCSS files in your project, and one main SCSS file
 ```clojure
 ;; in build.boot
 (set-env!
-  :dependencies '[mathias/boot-sassc   "0.1.3"]
+  :dependencies '[mathias/boot-sassc   "0.1.4"]
   :resource-paths #{"sass/"})
 ```
 
