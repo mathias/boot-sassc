@@ -85,6 +85,10 @@ on how to use these. By default `boot-sassc` will save the compiled CSS file at
  p load-path           str  "Load path for libsass. Use : for separate paths."]
 ```
 
+## Example project / demo
+
+See [https://github.com/mathias/boot-sassc-example](https://github.com/mathias/boot-sassc-example) for an example `build.boot` file.
+
 ## License
 
 Copyright Matt Gauger 2014.
