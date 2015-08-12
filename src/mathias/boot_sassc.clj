@@ -98,8 +98,8 @@
         (util/dbug "Compiling %d changed SASS files... .\n" (count sass-files))
         (.mkdirs output-dir)
         (doseq [file sass-files]
-          (util/info "Compiling %s\n" (core/tmppath file))
-          (sassc (core/tmpfile file)
+          (util/info "Compiling %s\n" (core/tmp-path file))
+          (sassc (core/tmp-file file)
                  output-dir
                  :output-style output-style
                  :line-numbers line-numbers
