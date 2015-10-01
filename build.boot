@@ -3,13 +3,13 @@
 
 (require '[adzerk.bootlaces :refer :all])
 
-(def +version+ "0.1.6")
+(def +version+ "0.1.7")
 (bootlaces! +version+)
 
 (task-options!
  pom  {:project     'djwhitt/boot-sassc
        :version     +version+
-       :description "Boot task to compile SCSS to CSS."
+       :description "DEPRECATED"
        :url         "https://github.com/mathias/boot-sassc"
        :scm         {:url "https://github.com/mathias/boot-sassc"}
        :license     {"name" "Eclipse Public License"
