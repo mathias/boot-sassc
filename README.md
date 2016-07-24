@@ -2,7 +2,7 @@
 
 [![Clojars Project](http://clojars.org/mathias/boot-sassc/latest-version.svg)](https://clojars.org/mathias/boot-sassc)
 
-Boot task to compile [SCSS](http://sass-lang.com/) stylesheets with the [sassc](http://libsass.org/#sassc) compiler.r
+Boot task to compile [SCSS](http://sass-lang.com/) stylesheets with the [sassc](http://libsass.org/#sassc) compiler.
 
 This is the README for versions `0.1.5` -- for older versions, see the tags in the GitHub repo.
 
