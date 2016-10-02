@@ -6,6 +6,8 @@ Boot task to compile [SCSS](http://sass-lang.com/) stylesheets with the [sassc](
 
 This is the README for versions `0.1.5` -- for older versions, see the tags in the GitHub repo.
 
+**Note: This is mostly-deprecated. You likely want [deraen/boot-sass](https://github.com/deraen/sass4clj) for compiling your SASS/SCSS instead of this task.**
+
 Notes:
 
 * You must install the `sassc` compiler to use this library!
